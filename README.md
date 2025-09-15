@@ -1,4 +1,4 @@
-[cardapio-mobile2.txt](https://github.com/user-attachments/files/22351017/cardapio-mobile2.txt)
+[cardapio-mobile.html](https://github.com/user-attachments/files/22351082/cardapio-mobile.html)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
