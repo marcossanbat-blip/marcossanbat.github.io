@@ -1,10 +1,9 @@
-[cardapio-mobile.html](https://github.com/user-attachments/files/22351082/cardapio-mobile.html)
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card�pio Interativo</title>
+    <title>Cardápio Interativo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -52,23 +51,23 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- Modal para inserir o n�mero da mesa -->
+    <!-- Modal para inserir o número da mesa -->
     <div id="tableModal" class="modal">
         <div class="bg-white p-8 rounded-xl shadow-2xl w-11/12 max-w-sm text-center">
             <h2 class="text-2xl font-bold mb-4 text-gray-800">Bem-vindo(a)!</h2>
-            <p class="text-gray-600 mb-6">Por favor, informe o n�mero da sua mesa para come�ar.</p>
-            <input type="number" id="tableNumberInput" class="w-full p-3 mb-4 text-center text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="N�mero da Mesa" min="1">
+            <p class="text-gray-600 mb-6">Por favor, informe o número da sua mesa para começar.</p>
+            <input type="number" id="tableNumberInput" class="w-full p-3 mb-4 text-center text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="Número da Mesa" min="1">
             <button id="startOrderButton" class="w-full py-3 px-6 bg-amber-500 text-white font-bold rounded-lg shadow-lg hover:bg-amber-600 transition-colors duration-300">
-                Acessar Card�pio
+                Acessar Cardápio
             </button>
-            <div id="error-message" class="text-red-500 mt-2 hidden">Por favor, insira um n�mero de mesa v�lido.</div>
+            <div id="error-message" class="text-red-500 mt-2 hidden">Por favor, insira um número de mesa válido.</div>
         </div>
     </div>
 
-    <!-- Cont�iner principal do card�pio -->
+    <!-- Contêiner principal do cardápio -->
     <div id="menuContainer" class="main-container hidden bg-white rounded-t-3xl shadow-2xl flex flex-col pt-4 w-full min-h-screen">
         <header class="p-4 bg-white shadow-md header-sticky">
-            <h1 class="text-3xl font-bold text-center text-gray-800 mb-4">Seu Card�pio</h1>
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-4">Seu Cardápio</h1>
             <nav class="horizontal-scroll pb-2">
                 <ul id="category-menu" class="flex gap-2">
                 </ul>
@@ -96,8 +95,8 @@
     </div>
 
     <script>
-        // --- CONFIGURA��ES E DADOS DO CARD�PIO ---
-        const RESTAURANT_WHATSAPP_NUMBER = '5521973630722';
+        // --- CONFIGURAÇÕES E DADOS DO CARDÁPIO ---
+        const RESTAURANT_WHATSAPP_NUMBER = '5531999998888';
 
         const menuData = [
             {
@@ -106,22 +105,22 @@
                     { name: "Batata Frita", price: 30.90, description: "Tradicional, crocante e saborosa." },
                     { name: "Batata Frita c/ Cheddar e Bacon", price: 40.90, description: "Batata Frita c/ Cheddar e Bacon." },
                     { name: "Calabresa Acebolada", price: 45.90, description: "Tradicional corte de calabresa acebolada." },
-                    { name: "Gurj�o de Frango", price: 45.90, description: "Tiras de Frango empanado frito com molho ros�." },
-                    { name: "Gurj�o de Peixe", price: 49.90, description: "Tiras de Til�pia empanada frita com molho T�taro." }
+                    { name: "Gurjão de Frango", price: 45.90, description: "Tiras de Frango empanado frito com molho rosé." },
+                    { name: "Gurjão de Peixe", price: 49.90, description: "Tiras de Tilápia empanada frita com molho Tátaro." }
                 ]
             },
             {
                 category: "Caldos e Sopas",
                 items: [
-                    { name: "Angu � Baiana", price: 20.00, description: "Tradicional Angu � Baiana." },
+                    { name: "Angu à Baiana", price: 20.00, description: "Tradicional Angu à Baiana." },
                     { name: "Caldo Taberna", price: 20.00, description: "Frango desfiado, bacon, batata." },
                 ]
             },
             {
                 category: "Bebidas",
                 items: [
-                    { name: "�gua Mineral", price: 6.00, description: "Sem g�s, 500ml." },
-                    { name: "Refrigerante Lata", price: 8.00, description: "Coca-Cola, Guaran�, Soda." },
+                    { name: "Água Mineral", price: 6.00, description: "Sem gás, 500ml." },
+                    { name: "Refrigerante Lata", price: 8.00, description: "Coca-Cola, Guaraná, Soda." },
                     { name: "Suco Natural", price: 12.00, description: "Laranja, Abacaxi, Morango." },
                     { name: "Cerveja Artesanal", price: 22.00, description: "IPA local, 600ml." }
                 ]
@@ -129,13 +128,13 @@
             {
                 category: "Sobremesas",
                 items: [
-                    { name: "Pudim de Leite Condensado", price: 15.00, description: "Cl�ssico pudim de leite, cremoso e com calda de caramelo." },
+                    { name: "Pudim de Leite Condensado", price: 15.00, description: "Clássico pudim de leite, cremoso e com calda de caramelo." },
                     { name: "Mousse de Chocolate", price: 18.00, description: "Feito com chocolate belga, leve e aerado." }
                 ]
             },
         ];
 
-        // --- VARI�VEIS GLOBAIS ---
+        // --- VARIÁVEIS GLOBAIS ---
         let tableNumber = null;
         const cart = {};
 
@@ -150,7 +149,7 @@
         const sendOrderButton = document.getElementById('sendOrderButton');
         const categoryMenu = document.getElementById('category-menu');
 
-        // --- FUN��ES PRINCIPAIS ---
+        // --- FUNÇÕES PRINCIPAIS ---
 
         // Renderiza o menu de categorias
         function renderCategoryMenu() {
@@ -168,11 +167,11 @@
             });
         }
 
-        // Renderiza o card�pio a partir dos dados do menuData
+        // Renderiza o cardápio a partir dos dados do menuData
         function renderMenu() {
             menuItemsEl.innerHTML = '';
             menuData.forEach(category => {
-                // T�tulo da categoria
+                // Título da categoria
                 const categorySection = document.createElement('div');
                 categorySection.id = `category-${category.category.replace(/\s+/g, '-')}`;
                 categorySection.classList.add('mb-8');
@@ -219,7 +218,7 @@
             setupEventListeners();
         }
 
-        // Adiciona os eventos de clique aos bot�es de adicionar/remover
+        // Adiciona os eventos de clique aos botões de adicionar/remover
         function setupEventListeners() {
             document.querySelectorAll('.add-item').forEach(button => {
                 button.addEventListener('click', (event) => {
@@ -253,7 +252,7 @@
             updateCartDisplay();
         }
 
-        // Atualiza a exibi��o do carrinho (quantidades e total)
+        // Atualiza a exibição do carrinho (quantidades e total)
         function updateCartDisplay() {
             let total = 0;
             menuData.forEach(category => {
@@ -278,7 +277,7 @@
 
         // --- EVENTOS DO APLICATIVO ---
 
-        // In�cio da intera��o: bot�o do modal
+        // Início da interação: botão do modal
         startOrderButton.addEventListener('click', () => {
             const inputTableNumber = tableNumberInput.value.trim();
             if (inputTableNumber === '' || isNaN(parseInt(inputTableNumber))) {
@@ -286,8 +285,13 @@
                 return;
             }
             tableNumber = inputTableNumber;
-            tableModal.classList.add('hidden');
-            menuContainer.classList.remove('hidden');
+            
+            // --- AJUSTE FEITO AQUI ---
+            // Torna o modal invisível
+            tableModal.style.display = 'none';
+            // Torna o container do cardápio visível
+            menuContainer.style.display = 'block';
+
             renderCategoryMenu();
             renderMenu();
         });
@@ -297,7 +301,7 @@
             const orderedItems = Object.keys(cart).filter(item => cart[item] > 0);
             
             if (orderedItems.length === 0) {
-                alert("Seu carrinho est� vazio! Adicione alguns itens antes de enviar o pedido.");
+                alert("Seu carrinho está vazio! Adicione alguns itens antes de enviar o pedido.");
                 return;
             }
 
