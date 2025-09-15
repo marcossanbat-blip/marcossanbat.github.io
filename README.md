@@ -83,6 +83,7 @@
                 <span>Total do Pedido:</span>
                 <span id="totalPrice">R$ 0,00</span>
             </div>
+            <div id="order-error" class="text-red-500 text-center mb-2 hidden"></div>
             <button id="sendOrderButton" class="w-full py-3 px-6 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-600 transition-colors duration-300">
                 <div class="flex items-center justify-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -171,44 +172,30 @@
         function renderMenu() {
             menuItemsEl.innerHTML = '';
             menuData.forEach(category => {
-                // Título da categoria
                 const categorySection = document.createElement('div');
                 categorySection.id = `category-${category.category.replace(/\s+/g, '-')}`;
                 categorySection.classList.add('mb-8');
-                // Adicionada a classe 'header-sticky' para um melhor comportamento em celulares
-                categorySection.innerHTML = `<h2 class="text-2xl font-bold text-gray-800 mb-4 p-2 bg-gray-200 rounded-lg header-sticky">
-                ${category.category}</h2>`;
-
-                // Itens da categoria
+                categorySection.innerHTML = `<h2 class="text-2xl font-bold text-gray-800 mb-4 p-2 bg-gray-200 rounded-lg header-sticky">${category.category}</h2>`;
                 const itemsContainer = document.createElement('div');
                 category.items.forEach(item => {
                     const itemEl = document.createElement('div');
                     itemEl.classList.add('flex', 'items-center', 'justify-between', 'p-4', 'mb-4', 'bg-white', 'rounded-xl', 'shadow-md', 'hover:shadow-lg', 'transition-shadow', 'duration-300');
-                    
                     const itemDetails = `
                         <div>
                             <h3 class="text-lg font-semibold text-gray-800">${item.name}</h3>
                             <p class="text-sm text-gray-500">${item.description}</p>
                             <span class="text-lg font-bold text-amber-600 mt-1 block">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
-                        </div>
-                    `;
-                    
+                        </div>`;
                     const quantityControl = `
                         <div class="flex items-center space-x-2 min-w-[100px] justify-end">
                             <button data-name="${item.name}" class="remove-item p-2 text-gray-500 hover:text-red-500 transition-colors duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" /></svg>
                             </button>
                             <span id="quantity-${item.name.replace(/\s+/g, '-')}" class="w-6 text-center text-lg font-bold">0</span>
                             <button data-name="${item.name}" class="add-item p-2 text-gray-500 hover:text-green-500 transition-colors duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
                             </button>
-                        </div>
-                    `;
-
+                        </div>`;
                     itemEl.innerHTML = itemDetails + quantityControl;
                     itemsContainer.appendChild(itemEl);
                 });
@@ -226,7 +213,6 @@
                     addItemToCart(itemName);
                 });
             });
-
             document.querySelectorAll('.remove-item').forEach(button => {
                 button.addEventListener('click', (event) => {
                     const itemName = event.currentTarget.getAttribute('data-name');
@@ -235,13 +221,11 @@
             });
         }
 
-        // Adiciona um item ao carrinho
         function addItemToCart(itemName) {
             cart[itemName] = (cart[itemName] || 0) + 1;
             updateCartDisplay();
         }
 
-        // Remove um item do carrinho
         function removeItemFromCart(itemName) {
             if (cart[itemName] && cart[itemName] > 0) {
                 cart[itemName] -= 1;
@@ -252,7 +236,6 @@
             updateCartDisplay();
         }
 
-        // Atualiza a exibição do carrinho (quantidades e total)
         function updateCartDisplay() {
             let total = 0;
             menuData.forEach(category => {
@@ -280,17 +263,17 @@
         // Início da interação: botão do modal
         startOrderButton.addEventListener('click', () => {
             const inputTableNumber = tableNumberInput.value.trim();
-            if (inputTableNumber === '' || isNaN(parseInt(inputTableNumber))) {
+            if (inputTableNumber === '' || isNaN(parseInt(inputTableNumber)) || parseInt(inputTableNumber) <= 0) {
                 errorMessage.classList.remove('hidden');
                 return;
             }
             tableNumber = inputTableNumber;
             
-            // --- AJUSTE FEITO AQUI ---
-            // Torna o modal invisível
-            tableModal.style.display = 'none';
-            // Torna o container do cardápio visível
-            menuContainer.style.display = 'block';
+            // --- CORREÇÃO APLICADA ---
+            // Esconde o modal e mostra o container principal usando classes do Tailwind.
+            // Isso garante que a propriedade 'display: flex' do container seja preservada.
+            tableModal.classList.add('hidden');
+            menuContainer.classList.remove('hidden');
 
             renderCategoryMenu();
             renderMenu();
@@ -299,9 +282,14 @@
         // Envio do pedido
         sendOrderButton.addEventListener('click', () => {
             const orderedItems = Object.keys(cart).filter(item => cart[item] > 0);
+            const orderErrorEl = document.getElementById('order-error');
+            orderErrorEl.classList.add('hidden');
             
             if (orderedItems.length === 0) {
-                alert("Seu carrinho está vazio! Adicione alguns itens antes de enviar o pedido.");
+                // --- CORREÇÃO: Substituído alert() por uma mensagem na UI ---
+                orderErrorEl.textContent = "Seu carrinho está vazio! Adicione alguns itens.";
+                orderErrorEl.classList.remove('hidden');
+                setTimeout(() => { orderErrorEl.classList.add('hidden'); }, 3000);
                 return;
             }
 
@@ -325,3 +313,4 @@
     </script>
 </body>
 </html>
+
