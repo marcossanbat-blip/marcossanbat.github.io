@@ -55,12 +55,6 @@
                 <input type="text" id="searchInput" placeholder="Buscar item..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
             </div>
-            <select id="priceFilter" class="px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="all">Todos os preços</option>
-                <option value="0-20">Até R$ 20</option>
-                <option value="20-40">R$ 20 - R$ 40</option>
-                <option value="40+">Acima de R$ 40</option>
-            </select>
         </div>
 
         <!-- Table Number Input -->
@@ -111,6 +105,9 @@
             <p id="table-number-summary" class="text-gray-600 mb-2"></p>
             <ul id="summary-list" class="space-y-4 text-gray-700"></ul>
             <p id="empty-cart-message" class="text-gray-400 italic text-center py-4">Nenhum item adicionado.</p>
+            <div id="order-total" class="font-bold text-lg text-gray-800 mt-4 pt-4 border-t border-gray-300 hidden">
+                <span class="text-blue-600">Total:</span> <span id="total-price">R$ 0,00</span>
+            </div>
         </div>
 
         <button id="whatsapp-button" class="w-full mt-6 py-4 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300">
@@ -159,6 +156,8 @@
             const tableNumberSummary = document.getElementById('table-number-summary');
             const summaryList = document.getElementById('summary-list');
             const emptyCartMessage = document.getElementById('empty-cart-message');
+            const orderTotalDiv = document.getElementById('order-total');
+            const totalPriceSpan = document.getElementById('total-price');
             const whatsappButton = document.getElementById('whatsapp-button');
             const messageBox = document.getElementById('message-box');
             const messageText = document.getElementById('message-text');
@@ -166,7 +165,6 @@
             const categoryTabs = document.getElementById('category-tabs');
             const menuSections = document.getElementById('menu-sections');
             const searchInput = document.getElementById('searchInput');
-            const priceFilter = document.getElementById('priceFilter');
 
             // Function to show a custom message box
             function showMessage(text) {
@@ -240,20 +238,15 @@
                 return itemDiv;
             }
 
-            // Function to render all items for a given category with filters
+            // Function to render all items for a given category with search filter
             function renderMenuSection(category) {
                 const section = document.getElementById(`${category}-section`);
                 section.innerHTML = '';
                 const searchTerm = searchInput.value.toLowerCase();
-                const priceRange = priceFilter.value;
 
                 const filteredItems = menu[category].filter(item => {
                     const matchesSearch = item.name.toLowerCase().includes(searchTerm) || item.description.toLowerCase().includes(searchTerm);
-                    const matchesPrice = (priceRange === 'all') || 
-                                         (priceRange === '0-20' && item.price <= 20) ||
-                                         (priceRange === '20-40' && item.price > 20 && item.price <= 40) ||
-                                         (priceRange === '40+' && item.price > 40);
-                    return matchesSearch && matchesPrice;
+                    return matchesSearch;
                 });
 
                 if (filteredItems.length === 0) {
@@ -269,24 +262,38 @@
             function updateOrderSummary() {
                 summaryList.innerHTML = '';
                 let hasItems = false;
+                let total = 0;
+
                 for (const itemName in order) {
                     if (order[itemName].quantity > 0) {
                         hasItems = true;
+                        const item = order[itemName];
+                        const subtotal = item.quantity * item.price;
+                        total += subtotal;
+
                         const li = document.createElement('li');
-                        li.className = 'cart-item flex items-center justify-between p-3 bg-white rounded-lg shadow-sm';
+                        li.className = 'cart-item flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-white rounded-lg shadow-sm';
                         li.innerHTML = `
                             <div class="flex items-center">
-                                <span class="text-blue-500 font-bold mr-2">${order[itemName].quantity}x</span>
-                                <span>${order[itemName].name}</span>
+                                <span class="text-blue-500 font-bold mr-2">${item.quantity}x</span>
+                                <div>
+                                    <span>${item.name}</span>
+                                    <span class="text-xs text-gray-500 block sm:inline-block"> (R$ ${item.price.toFixed(2)} cada)</span>
+                                </div>
                             </div>
-                            <button class="remove-item-btn text-red-500 hover:text-red-700 transition" data-item-name="${itemName}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <div class="flex items-center mt-2 sm:mt-0">
+                                <span class="font-semibold text-gray-700">R$ ${subtotal.toFixed(2)}</span>
+                                <button class="remove-item-btn text-red-500 hover:text-red-700 transition ml-4" data-item-name="${itemName}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
                         `;
                         summaryList.appendChild(li);
                     }
                 }
                 emptyCartMessage.classList.toggle('hidden', hasItems);
+                orderTotalDiv.classList.toggle('hidden', !hasItems);
+                totalPriceSpan.textContent = `R$ ${total.toFixed(2)}`;
             }
 
             // Event listener to remove item from summary
@@ -314,13 +321,11 @@
                 renderMenuSection(selectedCategory);
             });
             
-            // Handle search and filter changes
+            // Handle search changes
             let currentCategory = 'entradas';
             searchInput.addEventListener('input', () => {
-                renderMenuSection(currentCategory);
-            });
-
-            priceFilter.addEventListener('change', () => {
+                const activeTab = document.querySelector('.category-tab.active');
+                currentCategory = activeTab ? activeTab.getAttribute('data-category') : 'entradas';
                 renderMenuSection(currentCategory);
             });
 
@@ -338,12 +343,17 @@
                 }
 
                 let message = `*Novo Pedido*\n\n*Mesa:* ${tableNumber}\n\n*Itens:*\n`;
+                let total = 0;
                 for (const itemName in order) {
                     if (order[itemName].quantity > 0) {
-                        message += `- ${order[itemName].quantity}x ${order[itemName].name}\n`;
+                        const item = order[itemName];
+                        const subtotal = item.quantity * item.price;
+                        total += subtotal;
+                        message += `- ${item.quantity}x ${item.name} (R$ ${subtotal.toFixed(2)})\n`;
                     }
                 }
-                message += `\nObrigado!`;
+                message += `\n*Total:* R$ ${total.toFixed(2)}`;
+                message += `\n\nObrigado!`;
 
                 // URL encode the message and create the WhatsApp link with the number
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
