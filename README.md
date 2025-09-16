@@ -10,7 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background-color: #ffffff;
         }
         .scroll-container::-webkit-scrollbar {
             display: none;
@@ -27,8 +27,8 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
         .category-tab.active {
-            border-bottom-color: #3b82f6;
-            color: #3b82f6;
+            border-bottom-color: #fece24;
+            color: #fece24;
         }
         .cart-item {
             animation: fadeIn 0.5s;
@@ -52,24 +52,24 @@
         <!-- Search and Filter -->
         <div class="mb-6 flex flex-col sm:flex-row gap-3">
             <div class="relative flex-grow">
-                <input type="text" id="searchInput" placeholder="Buscar item..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <input type="text" id="searchInput" placeholder="Buscar item..." class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fece24] focus:border-[#fece24]">
                 <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
             </div>
         </div>
 
         <!-- Table Number Input -->
-        <div class="mb-6 flex items-center bg-blue-50 p-3 rounded-lg">
-            <i class="fas fa-utensils text-blue-500 mr-3"></i>
+        <div class="mb-6 flex items-center bg-gray-100 p-3 rounded-lg">
+            <i class="fas fa-utensils text-gray-700 mr-3"></i>
             <div class="flex-grow">
                 <label for="tableNumber" class="text-sm font-medium text-gray-700">Número da Mesa:</label>
-                <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#fece24] focus:border-[#fece24]">
             </div>
         </div>
 
         <!-- Categories -->
         <div class="relative mb-6">
             <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1">
-                <button data-category="entradas" class="category-tab active text-gray-700 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-blue-500 transition duration-300">Entradas</button>
+                <button data-category="entradas" class="category-tab active text-gray-700 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-[#fece24] transition duration-300">Entradas</button>
                 <button data-category="pratos-principais" class="category-tab text-gray-700 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300">Pratos Principais</button>
                 <button data-category="bebidas" class="category-tab text-gray-700 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300">Bebidas</button>
                 <button data-category="sobremesas" class="category-tab text-gray-700 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300">Sobremesas</button>
@@ -100,27 +100,19 @@
         </div>
 
         <!-- Order Summary & WhatsApp Button -->
-        <div id="order-summary" class="bg-blue-50 rounded-lg p-4 mt-8 shadow-inner">
-            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-shopping-cart text-blue-500 mr-2"></i> Resumo do Pedido</h3>
+        <div id="order-summary" class="bg-gray-100 rounded-lg p-4 mt-8 shadow-inner">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-shopping-cart text-gray-700 mr-2"></i> Resumo do Pedido</h3>
             <p id="table-number-summary" class="text-gray-600 mb-2"></p>
             <ul id="summary-list" class="space-y-4 text-gray-700"></ul>
             <p id="empty-cart-message" class="text-gray-400 italic text-center py-4">Nenhum item adicionado.</p>
             <div id="order-total" class="font-bold text-lg text-gray-800 mt-4 pt-4 border-t border-gray-300 hidden">
-                <span class="text-blue-600">Total:</span> <span id="total-price">R$ 0,00</span>
+                <span class="text-[#fece24]">Total:</span> <span id="total-price">R$ 0,00</span>
             </div>
         </div>
 
         <button id="whatsapp-button" class="w-full mt-6 py-4 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-600 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300">
             <i class="fab fa-whatsapp mr-2"></i> Enviar Pedido via WhatsApp
         </button>
-
-        <!-- Message Box -->
-        <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-            <div class="bg-white rounded-lg p-6 shadow-xl max-w-xs w-full text-center">
-                <p id="message-text" class="text-lg font-semibold text-gray-800 mb-4"></p>
-                <button id="close-message-box" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">OK</button>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -159,23 +151,9 @@
             const orderTotalDiv = document.getElementById('order-total');
             const totalPriceSpan = document.getElementById('total-price');
             const whatsappButton = document.getElementById('whatsapp-button');
-            const messageBox = document.getElementById('message-box');
-            const messageText = document.getElementById('message-text');
-            const closeMessageBox = document.getElementById('close-message-box');
             const categoryTabs = document.getElementById('category-tabs');
             const menuSections = document.getElementById('menu-sections');
             const searchInput = document.getElementById('searchInput');
-
-            // Function to show a custom message box
-            function showMessage(text) {
-                messageText.textContent = text;
-                messageBox.classList.remove('hidden');
-            }
-
-            // Function to close the custom message box
-            closeMessageBox.addEventListener('click', () => {
-                messageBox.classList.add('hidden');
-            });
 
             // Function to render a single menu item
             function renderMenuItem(item) {
@@ -186,54 +164,40 @@
                         <h3 class="font-bold text-gray-800 text-lg mb-1">${item.name}</h3>
                         <p class="text-sm text-gray-500 mb-3">${item.description}</p>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="text-blue-600 font-extrabold text-xl">R$ ${item.price.toFixed(2)}</span>
-                            <div class="flex items-center space-x-2">
+                            <span class="text-[#fece24] font-extrabold text-xl">R$ ${item.price.toFixed(2)}</span>
+                            <div class="flex items-center space-x-2 quantity-controls">
                                 <button class="quantity-btn decrement bg-gray-200 text-gray-700 w-8 h-8 rounded-full font-bold transition hover:bg-gray-300"><i class="fas fa-minus"></i></button>
                                 <span class="quantity text-lg font-medium">0</span>
                                 <button class="quantity-btn increment bg-gray-200 text-gray-700 w-8 h-8 rounded-full font-bold transition hover:bg-gray-300"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
-                        <button class="add-to-order-btn w-full bg-blue-500 text-white font-semibold py-2 rounded-lg shadow-sm hover:bg-blue-600 transition">
-                            <i class="fas fa-cart-plus mr-2"></i> Adicionar
-                        </button>
                     </div>
                 `;
 
                 const quantitySpan = itemDiv.querySelector('.quantity');
                 const decrementBtn = itemDiv.querySelector('.decrement');
                 const incrementBtn = itemDiv.querySelector('.increment');
-                const addBtn = itemDiv.querySelector('.add-to-order-btn');
+
+                // Update item quantity in order and on screen
+                const updateItemQuantity = (change) => {
+                    let quantity = parseInt(quantitySpan.textContent);
+                    quantity += change;
+
+                    if (quantity < 0) quantity = 0;
+                    
+                    quantitySpan.textContent = quantity;
+
+                    if (quantity > 0) {
+                        order[item.name] = { ...item, quantity };
+                    } else {
+                        delete order[item.name];
+                    }
+                    updateOrderSummary();
+                };
 
                 // Handle quantity changes
-                incrementBtn.addEventListener('click', () => {
-                    let quantity = parseInt(quantitySpan.textContent);
-                    quantitySpan.textContent = quantity + 1;
-                });
-
-                decrementBtn.addEventListener('click', () => {
-                    let quantity = parseInt(quantitySpan.textContent);
-                    if (quantity > 0) {
-                        quantitySpan.textContent = quantity - 1;
-                    }
-                });
-
-                // Handle adding item to order
-                addBtn.addEventListener('click', () => {
-                    const quantity = parseInt(quantitySpan.textContent);
-                    if (quantity > 0) {
-                        const existingItem = order[item.name];
-                        if (existingItem) {
-                            existingItem.quantity += quantity;
-                        } else {
-                            order[item.name] = { ...item, quantity };
-                        }
-                        updateOrderSummary();
-                        showMessage(`${item.name} (${quantity}x) adicionado ao pedido!`);
-                        quantitySpan.textContent = '0'; // Reset quantity after adding
-                    } else {
-                        showMessage('Selecione uma quantidade maior que zero.');
-                    }
-                });
+                incrementBtn.addEventListener('click', () => updateItemQuantity(1));
+                decrementBtn.addEventListener('click', () => updateItemQuantity(-1));
 
                 return itemDiv;
             }
@@ -275,7 +239,7 @@
                         li.className = 'cart-item flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-white rounded-lg shadow-sm';
                         li.innerHTML = `
                             <div class="flex items-center">
-                                <span class="text-blue-500 font-bold mr-2">${item.quantity}x</span>
+                                <span class="text-[#fece24] font-bold mr-2">${item.quantity}x</span>
                                 <div>
                                     <span>${item.name}</span>
                                     <span class="text-xs text-gray-500 block sm:inline-block"> (R$ ${item.price.toFixed(2)} cada)</span>
@@ -311,11 +275,11 @@
                 const tab = event.target.closest('.category-tab');
                 if (!tab) return;
                 
-                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active', 'border-blue-500'));
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active', 'border-[#fece24]'));
                 document.querySelectorAll('.menu-section').forEach(section => section.classList.add('hidden'));
 
                 const selectedCategory = tab.getAttribute('data-category');
-                tab.classList.add('active', 'border-blue-500');
+                tab.classList.add('active', 'border-[#fece24]');
                 document.getElementById(`${selectedCategory}-section`).classList.remove('hidden');
 
                 renderMenuSection(selectedCategory);
@@ -333,12 +297,12 @@
             whatsappButton.addEventListener('click', () => {
                 const tableNumber = tableNumberInput.value.trim();
                 if (!tableNumber) {
-                    showMessage('Por favor, preencha o número da mesa.');
+                    alert('Por favor, preencha o número da mesa.');
                     return;
                 }
 
                 if (Object.keys(order).length === 0) {
-                    showMessage('Seu pedido está vazio.');
+                    alert('Seu pedido está vazio.');
                     return;
                 }
 
