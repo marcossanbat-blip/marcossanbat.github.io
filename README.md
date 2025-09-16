@@ -2,25 +2,18 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardápio Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
-        * {
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F8F8F8;
             color: #333333;
             min-height: 100vh;
-            padding: 0;
-            margin: 0;
-            overflow-x: hidden;
         }
         
         .scroll-container::-webkit-scrollbar {
@@ -45,8 +38,6 @@
         
         .category-tab {
             transition: color 0.3s, background-color 0.3s;
-            flex: 1;
-            min-width: max-content;
         }
         
         .category-tab.active {
@@ -83,127 +74,87 @@
         #whatsapp-button:hover {
             background: linear-gradient(to right, #128C7E, #25D366);
         }
-        
-        .main-container {
-            width: 100%;
-            max-width: 100%;
-            padding: 0.75rem;
-        }
-        
-        .content-wrapper {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            min-height: calc(100vh - 2rem);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .menu-sections-container {
-            flex: 1;
-            overflow-y: auto;
-            max-height: 50vh;
-            margin-bottom: 1rem;
-        }
-        
-        .order-summary-container {
-            flex-shrink: 0;
-            margin-top: auto;
-        }
-        
-        @media (max-height: 700px) {
-            .menu-sections-container {
-                max-height: 45vh;
-            }
-        }
-        
-        @media (max-height: 600px) {
-            .menu-sections-container {
-                max-height: 40vh;
-            }
-        }
     </style>
 </head>
-<body class="flex flex-col items-center py-4">
-    <div class="main-container">
-        <div class="content-wrapper bg-white rounded-xl shadow-lg p-4">
+<body class="min-h-screen flex flex-col items-center py-8 px-4">
 
-            <!-- Cabeçalho -->
-            <div class="text-center mb-4">
-                <h1 class="text-2xl font-bold text-gray-800 mb-1">Cardápio Digital</h1>
-                <p class="text-xs text-gray-600">Faça seu pedido diretamente pelo cardápio</p>
+    <div class="w-full max-w-2xl bg-white rounded-xl shadow-2xl my-4 p-6 flex flex-col">
+
+        <!-- Cabeçalho -->
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Cardápio Digital</h1>
+            <p class="text-sm text-gray-600">Faça seu pedido diretamente pelo cardápio</p>
+        </div>
+        
+        <!-- Campo de Pesquisa -->
+        <div class="mb-6">
+            <div class="relative flex-grow">
+                <input type="text" id="searchInput" placeholder="Buscar item..." class="w-full pl-10 pr-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F32] focus:border-[#FF7F32]">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- Número da Mesa -->
+        <div class="mb-6 flex items-center bg-gray-100 p-3 rounded-lg">
+            <i class="fas fa-utensils text-[#FF7F32] mr-3"></i>
+            <div class="flex-grow">
+                <label for="tableNumber" class="text-sm font-medium text-gray-700">Número da Mesa:</label>
+                <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F32] focus:border-[#FF7F32]">
+            </div>
+        </div>
+
+        <!-- Categorias -->
+        <div class="relative mb-6">
+            <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1">
+                <button data-category="entradas" class="category-tab active text-white font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Entradas</button>
+                <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Pratos Principais</button>
+                <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Bebidas</button>
+                <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Sobremesas</button>
+            </div>
+        </div>
+
+        <!-- Seções do Menu -->
+        <div id="menu-sections" class="flex-grow">
+            <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-4"></div>
+            <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+        </div>
+
+        <!-- Resumo do Pedido e Botão WhatsApp -->
+        <div class="mt-8 pt-4 pb-2">
+            <div id="order-summary" class="bg-gray-100 rounded-lg p-4 mb-4 shadow-inner">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-receipt mr-2 text-[#FF7F32]"></i> Resumo do Pedido
+                </h3>
+                <p id="table-number-summary" class="text-gray-600 mb-3 bg-gray-200 py-1 px-3 rounded-md inline-block"></p>
+                
+                <div class="max-h-40 overflow-y-auto pr-2">
+                    <ul id="summary-list" class="space-y-3 text-gray-700"></ul>
+                    <p id="empty-cart-message" class="text-gray-500 italic text-center py-4">Nenhum item adicionado.</p>
+                </div>
+
+                <div id="total-container" class="border-t border-gray-300 pt-3 mt-3 hidden">
+                    <div class="flex justify-between font-bold text-lg text-gray-800">
+                        <span>Total:</span>
+                        <span id="total-price" class="text-[#FF7F32]">R$ 0,00</span>
+                    </div>
+                </div>
             </div>
             
-            <!-- Campo de Pesquisa -->
-            <div class="mb-4">
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="Buscar item..." class="w-full pl-10 pr-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F32] focus:border-[#FF7F32] text-sm">
-                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+            <button id="whatsapp-button" class="w-full py-3 text-white font-bold rounded-lg shadow-md transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 flex items-center justify-center">
+                <i class="fab fa-whatsapp mr-2 text-xl"></i> Enviar Pedido via WhatsApp
+            </button>
+        </div>
+
+        <!-- Caixa de Mensagem -->
+        <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-lg p-6 shadow-xl max-w-xs w-full text-center border-t-4 border-[#FF7F32]">
+                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-info-circle text-[#FF7F32] text-xl"></i>
                 </div>
-            </div>
-
-            <!-- Número da Mesa -->
-            <div class="mb-4 flex items-center bg-gray-100 p-2 rounded-lg">
-                <i class="fas fa-utensils text-[#FF7F32] mr-2 text-sm"></i>
-                <div class="flex-grow">
-                    <label for="tableNumber" class="text-xs font-medium text-gray-700 block">Número da Mesa:</label>
-                    <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-3 py-1.5 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F32] focus:border-[#FF7F32] text-sm">
-                </div>
-            </div>
-
-            <!-- Categorias -->
-            <div class="relative mb-4">
-                <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1 gap-1">
-                    <button data-category="entradas" class="category-tab active text-white font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Entradas</button>
-                    <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Pratos Principais</button>
-                    <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Bebidas</button>
-                    <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Sobremesas</button>
-                </div>
-            </div>
-
-            <!-- Seções do Menu -->
-            <div id="menu-sections" class="menu-sections-container">
-                <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-3"></div>
-                <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-3"></div>
-                <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-3"></div>
-                <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-3"></div>
-            </div>
-
-            <!-- Resumo do Pedido e Botão WhatsApp -->
-            <div class="order-summary-container pt-3">
-                <div id="order-summary" class="bg-gray-100 rounded-lg p-3 mb-3 shadow-inner">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
-                        <i class="fas fa-receipt mr-1 text-[#FF7F32] text-sm"></i> Resumo do Pedido
-                    </h3>
-                    <p id="table-number-summary" class="text-xs text-gray-600 mb-2 bg-gray-200 py-1 px-2 rounded-md inline-block"></p>
-                    
-                    <div class="max-h-32 overflow-y-auto pr-2">
-                        <ul id="summary-list" class="space-y-2 text-gray-700 text-sm"></ul>
-                        <p id="empty-cart-message" class="text-gray-500 italic text-center py-3 text-xs">Nenhum item adicionado.</p>
-                    </div>
-
-                    <div id="total-container" class="border-t border-gray-300 pt-2 mt-2 hidden">
-                        <div class="flex justify-between font-bold text-gray-800">
-                            <span class="text-sm">Total:</span>
-                            <span id="total-price" class="text-[#FF7F32] text-sm">R$ 0,00</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button id="whatsapp-button" class="w-full py-2.5 text-white font-bold rounded-lg shadow-md transition duration-300 flex items-center justify-center text-sm">
-                    <i class="fab fa-whatsapp mr-1 text-lg"></i> Enviar Pedido via WhatsApp
-                </button>
-            </div>
-
-            <!-- Caixa de Mensagem -->
-            <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-                <div class="bg-white rounded-lg p-4 shadow-xl max-w-xs w-full text-center border-t-4 border-[#FF7F32]">
-                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i class="fas fa-info-circle text-[#FF7F32] text-lg"></i>
-                    </div>
-                    <p id="message-text" class="text-base font-semibold text-gray-800 mb-3"></p>
-                    <button id="close-message-box" class="px-5 py-1.5 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-sm">OK</button>
-                </div>
+                <p id="message-text" class="text-lg font-semibold text-gray-800 mb-4"></p>
+                <button id="close-message-box" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition">OK</button>
             </div>
         </div>
     </div>
@@ -268,20 +219,20 @@
             // Renderiza um único item do menu
             function renderMenuItem(item) {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'menu-item-card rounded-lg shadow overflow-hidden p-3';
+                itemDiv.className = 'menu-item-card rounded-lg shadow overflow-hidden p-4';
                 itemDiv.innerHTML = `
-                    <div class="flex items-start justify-between mb-1">
+                    <div class="flex items-start justify-between mb-2">
                         <div class="flex-grow">
-                            <h3 class="font-semibold text-gray-800 text-base">${item.name}</h3>
-                            <p class="text-xs text-gray-600 mt-1">${item.description}</p>
+                            <h3 class="font-semibold text-gray-800 text-lg">${item.name}</h3>
+                            <p class="text-sm text-gray-600 mt-1">${item.description}</p>
                         </div>
-                        <span class="text-[#FF7F32] font-bold ml-2 text-sm">${formatPrice(item.price)}</span>
+                        <span class="text-[#FF7F32] font-bold ml-4">${formatPrice(item.price)}</span>
                     </div>
-                    <div class="flex items-center justify-between mt-3">
+                    <div class="flex items-center justify-between mt-4">
                         <div class="flex items-center space-x-2">
-                            <button class="quantity-btn decrement w-7 h-7 rounded-full font-bold transition text-xs">-</button>
-                            <span class="quantity font-medium w-8 text-center text-gray-800 text-sm">0</span>
-                            <button class="quantity-btn increment w-7 h-7 rounded-full font-bold transition text-xs">+</button>
+                            <button class="quantity-btn decrement w-8 h-8 rounded-full font-bold transition">-</button>
+                            <span class="quantity text-xl font-medium w-10 text-center text-gray-800">0</span>
+                            <button class="quantity-btn increment w-8 h-8 rounded-full font-bold transition">+</button>
                         </div>
                     </div>
                 `;
@@ -324,7 +275,7 @@
                 });
 
                 if (filteredItems.length === 0) {
-                    section.innerHTML = `<p class="text-center text-gray-500 italic py-6 text-xs">Nenhum item encontrado.</p>`;
+                    section.innerHTML = `<p class="text-center text-gray-500 italic py-8">Nenhum item encontrado nesta categoria com os filtros aplicados.</p>`;
                 } else {
                     filteredItems.forEach(item => {
                         section.appendChild(renderMenuItem(item));
@@ -346,13 +297,13 @@
                         total += itemTotal;
                         
                         const li = document.createElement('li');
-                        li.className = 'cart-item bg-white p-2 rounded-lg shadow-sm flex justify-between items-center';
+                        li.className = 'cart-item bg-white p-3 rounded-lg shadow-sm flex justify-between items-center';
                         li.innerHTML = `
                             <div class="flex-grow">
-                                <div class="font-medium text-gray-800 text-xs">${item.quantity}x ${item.name}</div>
-                                <div class="text-[#FF7F32] font-medium mt-1 text-xs">${formatPrice(itemTotal)}</div>
+                                <div class="font-medium text-gray-800">${item.quantity}x ${item.name}</div>
+                                <div class="text-[#FF7F32] font-medium mt-1">${formatPrice(itemTotal)}</div>
                             </div>
-                            <button class="remove-item-btn text-red-500 hover:text-red-700 transition ml-2 text-xs" data-item-name="${itemName}">
+                            <button class="remove-item-btn text-red-500 hover:text-red-700 transition ml-3" data-item-name="${itemName}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         `;
