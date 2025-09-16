@@ -13,6 +13,8 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #fece24 0%, #000000 100%);
             min-height: 100vh;
+            padding: 0;
+            margin: 0;
         }
         
         .scroll-container::-webkit-scrollbar {
@@ -68,88 +70,88 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-8 px-4">
+<body class="min-h-screen flex flex-col items-center py-2 px-2">
 
-    <div class="w-full max-w-2xl bg-white rounded-xl shadow-2xl my-4 p-6 flex flex-col">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-2xl my-2 p-4 flex flex-col">
 
         <!-- Header -->
-        <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2"><span class="bg-yellow-400 px-2 py-1 rounded">Cardápio Digital</span></h1>
-            <p class="text-sm text-gray-600">Faça seu pedido diretamente pelo cardápio</p>
+        <div class="text-center mb-4">
+            <h1 class="text-2xl font-bold text-gray-800 mb-1"><span class="bg-yellow-400 px-2 py-1 rounded">Cardápio Digital</span></h1>
+            <p class="text-xs text-gray-600">Faça seu pedido diretamente pelo cardápio</p>
         </div>
 
         <!-- Table Number Input -->
-        <div class="mb-6 flex items-center bg-black p-3 rounded-lg">
-            <i class="fas fa-utensils text-yellow-400 mr-3"></i>
+        <div class="mb-4 flex items-center bg-black p-2 rounded-lg">
+            <i class="fas fa-utensils text-yellow-400 mr-2 text-sm"></i>
             <div class="flex-grow">
-                <label for="tableNumber" class="text-sm font-medium text-white">Número da Mesa:</label>
-                <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
+                <label for="tableNumber" class="text-xs font-medium text-white">Número da Mesa:</label>
+                <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-2 py-1 text-sm bg-gray-800 text-white border border-gray-700 rounded shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-400 focus:border-yellow-400">
             </div>
         </div>
 
         <!-- Categories -->
-        <div class="relative mb-6">
-            <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1">
-                <button data-category="entradas" class="category-tab active text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Entradas</button>
-                <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Pratos Principais</button>
-                <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Bebidas</button>
-                <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Sobremesas</button>
+        <div class="relative mb-4">
+            <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b border-gray-200 pb-1">
+                <button data-category="entradas" class="category-tab active text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Entradas</button>
+                <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Principais</button>
+                <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Bebidas</button>
+                <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Sobremesas</button>
             </div>
         </div>
 
         <!-- Menu Sections -->
-        <div id="menu-sections" class="flex-grow">
+        <div id="menu-sections" class="flex-grow mb-2" style="max-height: 40vh; overflow-y: auto;">
             <!-- Entradas -->
-            <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-4">
+            <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-2">
                 <!-- Items will be populated by JavaScript -->
             </div>
 
             <!-- Pratos Principais -->
-            <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-4">
+            <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-2">
                 <!-- Items will be populated by JavaScript -->
             </div>
 
             <!-- Bebidas -->
-            <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-4">
+            <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-2">
                 <!-- Items will be populated by JavaScript -->
             </div>
 
             <!-- Sobremesas -->
-            <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-4">
+            <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-2">
                 <!-- Items will be populated by JavaScript -->
             </div>
         </div>
 
         <!-- Order Summary & WhatsApp Button -->
-        <div class="mt-8 sticky bottom-0 bg-white pt-4 pb-2 rounded-t-xl shadow-lg border-t">
-            <div id="order-summary" class="bg-gray-100 rounded-lg p-4 mb-4 max-h-64 overflow-y-auto">
-                <h3 class="text-xl font-semibold text-gray-800 mb-3 flex items-center">
-                    <i class="fas fa-receipt mr-2"></i> Resumo do Pedido
+        <div class="mt-4 sticky bottom-0 bg-white pt-2 pb-1 rounded-t-xl shadow-lg border-t">
+            <div id="order-summary" class="bg-gray-100 rounded-lg p-2 mb-2" style="max-height: 20vh; overflow-y: auto;">
+                <h3 class="text-lg font-semibold text-gray-800 mb-1 flex items-center">
+                    <i class="fas fa-receipt mr-1 text-sm"></i> Resumo do Pedido
                 </h3>
-                <p id="table-number-summary" class="text-gray-700 mb-3 bg-yellow-100 py-1 px-3 rounded-md inline-block"></p>
-                <ul id="summary-list" class="space-y-3 text-gray-700"></ul>
-                <div id="total-container" class="border-t border-gray-300 pt-3 mt-3 hidden">
-                    <div class="flex justify-between font-bold text-lg">
-                        <span>Total:</span>
-                        <span id="total-price">R$ 0,00</span>
+                <p id="table-number-summary" class="text-xs text-gray-700 mb-1 bg-yellow-100 py-1 px-2 rounded-md inline-block"></p>
+                <ul id="summary-list" class="space-y-1 text-gray-700 text-sm"></ul>
+                <div id="total-container" class="border-t border-gray-300 pt-1 mt-1 hidden">
+                    <div class="flex justify-between font-bold">
+                        <span class="text-sm">Total:</span>
+                        <span id="total-price" class="text-sm">R$ 0,00</span>
                     </div>
                 </div>
-                <p id="empty-cart-message" class="text-gray-500 italic text-center py-4">Nenhum item adicionado.</p>
+                <p id="empty-cart-message" class="text-gray-500 italic text-center py-2 text-xs">Nenhum item adicionado.</p>
             </div>
             
-            <button id="whatsapp-button" class="w-full py-3 text-white font-bold rounded-lg shadow-md transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 flex items-center justify-center">
-                <i class="fab fa-whatsapp mr-2 text-xl"></i> Enviar Pedido via WhatsApp
+            <button id="whatsapp-button" class="w-full py-2 text-white font-bold rounded-lg shadow-md transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-opacity-50 flex items-center justify-center text-sm">
+                <i class="fab fa-whatsapp mr-1"></i> Enviar Pedido via WhatsApp
             </button>
         </div>
 
         <!-- Message Box -->
         <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-            <div class="bg-white rounded-lg p-6 shadow-xl max-w-xs w-full text-center">
-                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-info-circle text-yellow-500 text-xl"></i>
+            <div class="bg-white rounded-lg p-4 shadow-xl max-w-xs w-full text-center">
+                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <i class="fas fa-info-circle text-yellow-500"></i>
                 </div>
-                <p id="message-text" class="text-lg font-semibold text-gray-800 mb-4"></p>
-                <button id="close-message-box" class="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition">OK</button>
+                <p id="message-text" class="text-sm font-semibold text-gray-800 mb-3"></p>
+                <button id="close-message-box" class="px-4 py-1 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm">OK</button>
             </div>
         </div>
     </div>
@@ -212,20 +214,20 @@
             // Function to render a single menu item
             function renderMenuItem(item, category) {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'menu-item-card bg-white rounded-lg shadow overflow-hidden p-4';
+                itemDiv.className = 'menu-item-card bg-white rounded-lg shadow overflow-hidden p-2';
                 itemDiv.innerHTML = `
-                    <div class="flex items-start justify-between mb-2">
+                    <div class="flex items-start justify-between mb-1">
                         <div class="flex-grow">
-                            <h3 class="font-semibold text-gray-800 text-lg">${item.name}</h3>
-                            <p class="text-sm text-gray-500 mt-1">${item.description}</p>
+                            <h3 class="font-semibold text-gray-800 text-sm">${item.name}</h3>
+                            <p class="text-xs text-gray-500 mt-1">${item.description}</p>
                         </div>
-                        <span class="text-yellow-600 font-bold ml-4">${formatPrice(item.price)}</span>
+                        <span class="text-yellow-600 font-bold ml-2 text-sm">${formatPrice(item.price)}</span>
                     </div>
-                    <div class="flex items-center justify-between mt-4">
-                        <div class="flex items-center space-x-2">
-                            <button class="quantity-btn decrement bg-gray-200 text-gray-700 w-8 h-8 rounded-full font-bold transition hover:bg-gray-300">-</button>
-                            <span class="quantity text-xl font-medium w-10 text-center">0</span>
-                            <button class="quantity-btn increment bg-gray-200 text-gray-700 w-8 h-8 rounded-full font-bold transition hover:bg-gray-300">+</button>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="flex items-center space-x-1">
+                            <button class="quantity-btn decrement bg-gray-200 text-gray-700 w-6 h-6 rounded-full font-bold transition hover:bg-gray-300 text-xs">-</button>
+                            <span class="quantity font-medium w-6 text-center text-sm">0</span>
+                            <button class="quantity-btn increment bg-gray-200 text-gray-700 w-6 h-6 rounded-full font-bold transition hover:bg-gray-300 text-xs">+</button>
                         </div>
                     </div>
                 `;
@@ -293,13 +295,13 @@
                         total += itemTotal;
                         
                         const li = document.createElement('li');
-                        li.className = 'cart-item bg-white p-3 rounded-lg shadow-sm flex justify-between items-center';
+                        li.className = 'cart-item bg-white p-2 rounded-lg shadow-sm flex justify-between items-center';
                         li.innerHTML = `
                             <div class="flex-grow">
-                                <div class="font-medium">${item.quantity}x ${item.name}</div>
-                                <div class="text-yellow-600 font-medium mt-1">${formatPrice(itemTotal)}</div>
+                                <div class="font-medium text-xs">${item.quantity}x ${item.name}</div>
+                                <div class="text-yellow-600 font-medium mt-1 text-xs">${formatPrice(itemTotal)}</div>
                             </div>
-                            <button class="remove-item-btn text-red-500 hover:text-red-700 transition ml-3" data-item-name="${itemName}">
+                            <button class="remove-item-btn text-red-500 hover:text-red-700 transition ml-2 text-xs" data-item-name="${itemName}">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         `;
@@ -397,11 +399,4 @@
             
             // Show the first category by default
             document.querySelector('.category-tab').classList.add('active');
-            document.getElementById('entradas-section').classList.remove('hidden');
-            
-            updateOrderSummary();
-        });
-    </script>
-
-</body>
-</html>
+            document.getElementById('entradas-section').classList.remo
