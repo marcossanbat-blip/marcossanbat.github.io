@@ -161,18 +161,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const whatsappNumber = '5521983382711';
+            const whatsappNumber = '5521973630722';
 
             const menu = {
-                'entradas': [
-                    { name: 'Bruschetta', description: 'Pão italiano, tomate, manjericão', price: 18.00 },
-                    { name: 'Salada Caesar', description: 'Alface, frango, parmesão, croutons', price: 22.00 },
-                    { name: 'Bolinho de Bacalhau', description: 'Porção com 6 unidades', price: 25.00 }
+                'petiscos': [
+                    { name: 'Batata Frita', description: 'Tradicional, crocante e saborosa', price: 30.90 },
+                    { name: 'Batata Frita c/ Cheddar e Bacon', description: 'Batata Frita c/ Cheddar e Bacon', price: 40.90 },
+                    { name: 'Calabresa Acebolada', description: 'Tradicional corte de calabresa acebolada', price: 45.90 },
+		    { name: 'Gurjão de Frango', description: 'Tiras de Frango empanado frito com molho rosé', price: 45.90 },
+                    { name: 'Gurjão de Peixe', description: 'Tiras de Tilápia empanada frita com molho Tátaro', price: 49.90 }			
                 ],
-                'pratos-principais': [
-                    { name: 'Filé à Parmegiana', description: 'Filé, molho, queijo, arroz, fritas', price: 45.00 },
-                    { name: 'Risoto de Cogumelos', description: 'Arroz arbório, cogumelos frescos', price: 38.00 },
-                    { name: 'Peixe Grelhado', description: 'Peixe do dia, legumes, arroz', price: 42.00 }
+                'caldos e sopas': [
+                    { name: 'Angu à Baiana', description: 'Tradicional Angu à Baiana', price: 20.00 },
+                    { name: 'Caldo Taberna', description: 'Frango desfiado, bacon, batata', price: 20.00 },
+                    { name: 'Caldo Verde', description: 'O tradicional de todo mundo conhece', price: 20.00 }
                 ],
                 'bebidas': [
                     { name: 'Água Mineral', description: 'Com ou sem gás', price: 5.00 },
