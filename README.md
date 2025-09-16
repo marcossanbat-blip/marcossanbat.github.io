@@ -167,7 +167,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const whatsappNumber = '5521983382711';
+            const whatsappNumber = '5521973630722';
 
             const menu = {
                 'almoco': [
