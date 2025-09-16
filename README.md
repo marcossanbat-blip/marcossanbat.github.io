@@ -106,8 +106,8 @@
         <!-- Categorias -->
         <div class="relative mb-6">
             <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1">
-                <button data-category="entradas" class="category-tab active text-white font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Entradas</button>
-                <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Pratos Principais</button>
+                <button data-category="petiscos" class="category-tab active text-white font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Entradas</button>
+                <button data-category="caldos e sopas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Pratos Principais</button>
                 <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Bebidas</button>
                 <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Sobremesas</button>
             </div>
@@ -115,8 +115,8 @@
 
         <!-- Seções do Menu -->
         <div id="menu-sections" class="flex-grow">
-            <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-4"></div>
-            <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="entradas-section" data-category="petiscos" class="menu-section grid grid-cols-1 gap-4"></div>
+            <div id="pratos-principais-section" data-category="caldos e sopas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
             <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
             <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
         </div>
