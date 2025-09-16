@@ -106,18 +106,24 @@
         <!-- Categorias -->
         <div class="relative mb-6">
             <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1">
-                <button data-category="petiscos" class="category-tab active text-white font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Entradas</button>
-                <button data-category="caldos e sopas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Pratos Principais</button>
+                <button data-category="almoco" class="category-tab active text-white font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Almoço</button>
+                <button data-category="prato-do-dia" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Prato do Dia</button>
+                <button data-category="petiscos" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Petiscos</button>
+                <button data-category="caldos-e-sopas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Caldos e Sopas</button>
                 <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Bebidas</button>
+                <button data-category="bebidas-18-plus" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Bebidas 18+</button>
                 <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-2 px-4 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg">Sobremesas</button>
             </div>
         </div>
 
         <!-- Seções do Menu -->
         <div id="menu-sections" class="flex-grow">
-            <div id="entradas-section" data-category="petiscos" class="menu-section grid grid-cols-1 gap-4"></div>
-            <div id="pratos-principais-section" data-category="caldos e sopas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="almoco-section" data-category="almoco" class="menu-section grid grid-cols-1 gap-4"></div>
+            <div id="prato-do-dia-section" data-category="prato-do-dia" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="petiscos-section" data-category="petiscos" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="caldos-e-sopas-section" data-category="caldos-e-sopas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
             <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
+            <div id="bebidas-18-plus-section" data-category="bebidas-18-plus" class="menu-section hidden grid grid-cols-1 gap-4"></div>
             <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-4"></div>
         </div>
 
@@ -161,25 +167,38 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const whatsappNumber = '5521973630722';
+            const whatsappNumber = '5521983382711';
 
             const menu = {
-                'petiscos': [
-                    { name: 'Batata Frita', description: 'Tradicional, crocante e saborosa', price: 30.90 },
-                    { name: 'Batata Frita c/ Cheddar e Bacon', description: 'Batata Frita c/ Cheddar e Bacon', price: 40.90 },
-                    { name: 'Calabresa Acebolada', description: 'Tradicional corte de calabresa acebolada', price: 45.90 },
-		    { name: 'Gurjão de Frango', description: 'Tiras de Frango empanado frito com molho rosé', price: 45.90 },
-                    { name: 'Gurjão de Peixe', description: 'Tiras de Tilápia empanada frita com molho Tátaro', price: 49.90 }			
+                'almoco': [
+                    { name: 'Frango à Parmegiana', price: 29.90, description: 'Acompanha arroz, fritas ou purê, salada, feijão e farofa.' },
+                    { name: 'Frango à Milanesa', price: 24.90, description: 'Acompanha arroz, fritas ou purê, salada, feijão e farofa.' },
+                    { name: 'Frango Grelhado', price: 24.90, description: 'Acompanha arroz, fritas ou purê, salada, feijão e farofa.' },
                 ],
-                'caldos e sopas': [
-                    { name: 'Angu à Baiana', description: 'Tradicional Angu à Baiana', price: 20.00 },
-                    { name: 'Caldo Taberna', description: 'Frango desfiado, bacon, batata', price: 20.00 },
-                    { name: 'Caldo Verde', description: 'O tradicional de todo mundo conhece', price: 20.00 }
+                'prato-do-dia': [
+                    { name: 'Costela com Batata', price: 35.00, description: 'Acompanha arroz, fritas ou purê, salada, feijão e farofa.' },
+                    { name: 'Rabada com Agrião', price: 35.90, description: 'Acompanha arroz, fritas ou purê, salada, feijão e farofa.' },
+                    { name: 'Feijoada Taberna', price: 45.90, description: 'Tradicional, com couve, farofa e arroz.' },
+                ],
+                'petiscos': [
+                    { name: 'Batata Frita', price: 30.90, description: 'Tradicional, crocante e saborosa.' },
+                    { name: 'Batata Frita c/ Cheddar e Bacon', price: 40.90, description: 'Batata Frita c/ Cheddar e Bacon.' },
+                    { name: 'Calabresa Acebolada', price: 45.90, description: 'Tradicional corte de calabresa acebolada.' },
+                    { name: 'Gurjão de Frango', price: 45.90, description: 'Tiras de Frango empanado frito com molho rosé.' },
+                    { name: 'Gurjão de Peixe', price: 49.90, description: 'Tiras de Tilápia empanada frita com molho Tátaro.' }
+                ],
+                'caldos-e-sopas': [
+                    { name: 'Angu à Baiana', price: 20.00, description: 'Tradicional Angu à Baiana.' },
+                    { name: 'Caldo Taberna', price: 20.00, description: 'Frango desfiado, bacon, batata.' },
                 ],
                 'bebidas': [
-                    { name: 'Água Mineral', description: 'Com ou sem gás', price: 5.00 },
-                    { name: 'Refrigerante', description: 'Lata (diversos sabores)', price: 7.00 },
-                    { name: 'Suco Natural', description: 'Laranja, limão ou abacaxi', price: 9.00 }
+                    { name: 'Água Mineral', description: 'Sem gás, 500ml.', price: 6.00 },
+                    { name: 'Refrigerante Lata', description: 'Coca-Cola, Guaraná, Soda.', price: 8.00 },
+                    { name: 'Suco Natural', description: 'Laranja, Abacaxi, Morango.', price: 12.00 },
+                    { name: 'Cerveja Artesanal', description: 'IPA local, 600ml.', price: 22.00 }
+                ],
+                'bebidas-18-plus': [
+                    { name: 'Chopp Brahma', price: 8.50, description: 'Delicioso chopp brahma.' }
                 ],
                 'sobremesas': [
                     { name: 'Pudim de Leite', description: 'Tradicional', price: 12.00 },
@@ -364,7 +383,7 @@
             // Evento para o campo de busca
             searchInput.addEventListener('input', () => {
                 const activeTab = document.querySelector('.category-tab.active');
-                const currentCategory = activeTab ? activeTab.getAttribute('data-category') : 'entradas';
+                const currentCategory = activeTab ? activeTab.getAttribute('data-category') : 'almoco';
                 renderMenuSection(currentCategory);
             });
 
@@ -408,7 +427,7 @@
                 tableNumberSummary.textContent = tableNumber ? `Mesa: ${tableNumber}` : '';
             });
 
-            renderMenuSection('entradas');
+            renderMenuSection('almoco');
             updateOrderSummary();
         });
     </script>
