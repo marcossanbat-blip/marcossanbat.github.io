@@ -2,19 +2,25 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio Interativo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cardápio Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fece24 0%, #000000 100%);
+            background-color: #F8F8F8;
+            color: #333333;
             min-height: 100vh;
             padding: 0;
             margin: 0;
+            overflow-x: hidden;
         }
         
         .scroll-container::-webkit-scrollbar {
@@ -28,23 +34,30 @@
         
         .menu-item-card {
             transition: transform 0.3s, box-shadow 0.3s;
-            border-left: 4px solid #fece24;
+            border-left: 4px solid #FF7F32;
+            background-color: #FFFFFF;
         }
         
         .menu-item-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-tab {
+            transition: color 0.3s, background-color 0.3s;
+            flex: 1;
+            min-width: max-content;
         }
         
         .category-tab.active {
-            border-bottom-color: #fece24;
-            color: #000;
-            background-color: #fece24;
+            background-color: #FF7F32;
+            color: #FFFFFF;
+            border-bottom-color: #FF7F32;
         }
         
         .cart-item {
             animation: fadeIn 0.5s;
-            border-left: 3px solid #fece24;
+            border-left: 3px solid #FF7F32;
         }
         
         @keyframes fadeIn {
@@ -54,13 +67,15 @@
         
         .quantity-btn {
             transition: all 0.2s;
+            background-color: #E5E7EB;
+            color: #4B5563;
         }
         
         .quantity-btn:hover {
-            background-color: #fece24 !important;
-            color: #000 !important;
+            background-color: #FF7F32 !important;
+            color: #FFFFFF !important;
         }
-        
+
         #whatsapp-button {
             background: linear-gradient(to right, #25D366, #128C7E);
         }
@@ -68,90 +83,127 @@
         #whatsapp-button:hover {
             background: linear-gradient(to right, #128C7E, #25D366);
         }
+        
+        .main-container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0.75rem;
+        }
+        
+        .content-wrapper {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: calc(100vh - 2rem);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .menu-sections-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 50vh;
+            margin-bottom: 1rem;
+        }
+        
+        .order-summary-container {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        
+        @media (max-height: 700px) {
+            .menu-sections-container {
+                max-height: 45vh;
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .menu-sections-container {
+                max-height: 40vh;
+            }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-2 px-2">
+<body class="flex flex-col items-center py-4">
+    <div class="main-container">
+        <div class="content-wrapper bg-white rounded-xl shadow-lg p-4">
 
-    <div class="w-full max-w-md bg-white rounded-xl shadow-2xl my-2 p-4 flex flex-col">
-
-        <!-- Header -->
-        <div class="text-center mb-4">
-            <h1 class="text-2xl font-bold text-gray-800 mb-1"><span class="bg-yellow-400 px-2 py-1 rounded">Cardápio Digital</span></h1>
-            <p class="text-xs text-gray-600">Faça seu pedido diretamente pelo cardápio</p>
-        </div>
-
-        <!-- Table Number Input -->
-        <div class="mb-4 flex items-center bg-black p-2 rounded-lg">
-            <i class="fas fa-utensils text-yellow-400 mr-2 text-sm"></i>
-            <div class="flex-grow">
-                <label for="tableNumber" class="text-xs font-medium text-white">Número da Mesa:</label>
-                <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-2 py-1 text-sm bg-gray-800 text-white border border-gray-700 rounded shadow-sm focus:outline-none focus:ring-1 focus:ring-yellow-400 focus:border-yellow-400">
-            </div>
-        </div>
-
-        <!-- Categories -->
-        <div class="relative mb-4">
-            <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b border-gray-200 pb-1">
-                <button data-category="entradas" class="category-tab active text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Entradas</button>
-                <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Principais</button>
-                <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Bebidas</button>
-                <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-1 px-2 text-sm whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t">Sobremesas</button>
-            </div>
-        </div>
-
-        <!-- Menu Sections -->
-        <div id="menu-sections" class="flex-grow mb-2" style="max-height: 40vh; overflow-y: auto;">
-            <!-- Entradas -->
-            <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-2">
-                <!-- Items will be populated by JavaScript -->
-            </div>
-
-            <!-- Pratos Principais -->
-            <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-2">
-                <!-- Items will be populated by JavaScript -->
-            </div>
-
-            <!-- Bebidas -->
-            <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-2">
-                <!-- Items will be populated by JavaScript -->
-            </div>
-
-            <!-- Sobremesas -->
-            <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-2">
-                <!-- Items will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Order Summary & WhatsApp Button -->
-        <div class="mt-4 sticky bottom-0 bg-white pt-2 pb-1 rounded-t-xl shadow-lg border-t">
-            <div id="order-summary" class="bg-gray-100 rounded-lg p-2 mb-2" style="max-height: 20vh; overflow-y: auto;">
-                <h3 class="text-lg font-semibold text-gray-800 mb-1 flex items-center">
-                    <i class="fas fa-receipt mr-1 text-sm"></i> Resumo do Pedido
-                </h3>
-                <p id="table-number-summary" class="text-xs text-gray-700 mb-1 bg-yellow-100 py-1 px-2 rounded-md inline-block"></p>
-                <ul id="summary-list" class="space-y-1 text-gray-700 text-sm"></ul>
-                <div id="total-container" class="border-t border-gray-300 pt-1 mt-1 hidden">
-                    <div class="flex justify-between font-bold">
-                        <span class="text-sm">Total:</span>
-                        <span id="total-price" class="text-sm">R$ 0,00</span>
-                    </div>
-                </div>
-                <p id="empty-cart-message" class="text-gray-500 italic text-center py-2 text-xs">Nenhum item adicionado.</p>
+            <!-- Cabeçalho -->
+            <div class="text-center mb-4">
+                <h1 class="text-2xl font-bold text-gray-800 mb-1">Cardápio Digital</h1>
+                <p class="text-xs text-gray-600">Faça seu pedido diretamente pelo cardápio</p>
             </div>
             
-            <button id="whatsapp-button" class="w-full py-2 text-white font-bold rounded-lg shadow-md transition duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-opacity-50 flex items-center justify-center text-sm">
-                <i class="fab fa-whatsapp mr-1"></i> Enviar Pedido via WhatsApp
-            </button>
-        </div>
-
-        <!-- Message Box -->
-        <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-            <div class="bg-white rounded-lg p-4 shadow-xl max-w-xs w-full text-center">
-                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <i class="fas fa-info-circle text-yellow-500"></i>
+            <!-- Campo de Pesquisa -->
+            <div class="mb-4">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Buscar item..." class="w-full pl-10 pr-4 py-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F32] focus:border-[#FF7F32] text-sm">
+                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
                 </div>
-                <p id="message-text" class="text-sm font-semibold text-gray-800 mb-3"></p>
-                <button id="close-message-box" class="px-4 py-1 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm">OK</button>
+            </div>
+
+            <!-- Número da Mesa -->
+            <div class="mb-4 flex items-center bg-gray-100 p-2 rounded-lg">
+                <i class="fas fa-utensils text-[#FF7F32] mr-2 text-sm"></i>
+                <div class="flex-grow">
+                    <label for="tableNumber" class="text-xs font-medium text-gray-700 block">Número da Mesa:</label>
+                    <input type="number" id="tableNumber" min="1" placeholder="Ex: 5" class="mt-1 block w-full px-3 py-1.5 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F32] focus:border-[#FF7F32] text-sm">
+                </div>
+            </div>
+
+            <!-- Categorias -->
+            <div class="relative mb-4">
+                <div id="category-tabs" class="flex overflow-x-auto scroll-container border-b-2 border-gray-200 pb-1 gap-1">
+                    <button data-category="entradas" class="category-tab active text-white font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Entradas</button>
+                    <button data-category="pratos-principais" class="category-tab text-gray-800 font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Pratos Principais</button>
+                    <button data-category="bebidas" class="category-tab text-gray-800 font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Bebidas</button>
+                    <button data-category="sobremesas" class="category-tab text-gray-800 font-semibold py-1.5 px-3 whitespace-nowrap border-b-2 border-transparent transition duration-300 rounded-t-lg text-xs">Sobremesas</button>
+                </div>
+            </div>
+
+            <!-- Seções do Menu -->
+            <div id="menu-sections" class="menu-sections-container">
+                <div id="entradas-section" data-category="entradas" class="menu-section grid grid-cols-1 gap-3"></div>
+                <div id="pratos-principais-section" data-category="pratos-principais" class="menu-section hidden grid grid-cols-1 gap-3"></div>
+                <div id="bebidas-section" data-category="bebidas" class="menu-section hidden grid grid-cols-1 gap-3"></div>
+                <div id="sobremesas-section" data-category="sobremesas" class="menu-section hidden grid grid-cols-1 gap-3"></div>
+            </div>
+
+            <!-- Resumo do Pedido e Botão WhatsApp -->
+            <div class="order-summary-container pt-3">
+                <div id="order-summary" class="bg-gray-100 rounded-lg p-3 mb-3 shadow-inner">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-receipt mr-1 text-[#FF7F32] text-sm"></i> Resumo do Pedido
+                    </h3>
+                    <p id="table-number-summary" class="text-xs text-gray-600 mb-2 bg-gray-200 py-1 px-2 rounded-md inline-block"></p>
+                    
+                    <div class="max-h-32 overflow-y-auto pr-2">
+                        <ul id="summary-list" class="space-y-2 text-gray-700 text-sm"></ul>
+                        <p id="empty-cart-message" class="text-gray-500 italic text-center py-3 text-xs">Nenhum item adicionado.</p>
+                    </div>
+
+                    <div id="total-container" class="border-t border-gray-300 pt-2 mt-2 hidden">
+                        <div class="flex justify-between font-bold text-gray-800">
+                            <span class="text-sm">Total:</span>
+                            <span id="total-price" class="text-[#FF7F32] text-sm">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="whatsapp-button" class="w-full py-2.5 text-white font-bold rounded-lg shadow-md transition duration-300 flex items-center justify-center text-sm">
+                    <i class="fab fa-whatsapp mr-1 text-lg"></i> Enviar Pedido via WhatsApp
+                </button>
+            </div>
+
+            <!-- Caixa de Mensagem -->
+            <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+                <div class="bg-white rounded-lg p-4 shadow-xl max-w-xs w-full text-center border-t-4 border-[#FF7F32]">
+                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-info-circle text-[#FF7F32] text-lg"></i>
+                    </div>
+                    <p id="message-text" class="text-base font-semibold text-gray-800 mb-3"></p>
+                    <button id="close-message-box" class="px-5 py-1.5 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition text-sm">OK</button>
+                </div>
             </div>
         </div>
     </div>
@@ -194,40 +246,42 @@
             const messageBox = document.getElementById('message-box');
             const messageText = document.getElementById('message-text');
             const closeMessageBox = document.getElementById('close-message-box');
+            const searchInput = document.getElementById('searchInput');
+            const categoryTabs = document.getElementById('category-tabs');
 
-            // Function to show a custom message box
+            // Exibe uma caixa de mensagem personalizada
             function showMessage(text) {
                 messageText.textContent = text;
                 messageBox.classList.remove('hidden');
             }
 
-            // Function to close the custom message box
+            // Fecha a caixa de mensagem
             closeMessageBox.addEventListener('click', () => {
                 messageBox.classList.add('hidden');
             });
 
-            // Function to format price as Brazilian Real
+            // Formata o preço para o padrão brasileiro
             function formatPrice(price) {
                 return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
             }
 
-            // Function to render a single menu item
-            function renderMenuItem(item, category) {
+            // Renderiza um único item do menu
+            function renderMenuItem(item) {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'menu-item-card bg-white rounded-lg shadow overflow-hidden p-2';
+                itemDiv.className = 'menu-item-card rounded-lg shadow overflow-hidden p-3';
                 itemDiv.innerHTML = `
                     <div class="flex items-start justify-between mb-1">
                         <div class="flex-grow">
-                            <h3 class="font-semibold text-gray-800 text-sm">${item.name}</h3>
-                            <p class="text-xs text-gray-500 mt-1">${item.description}</p>
+                            <h3 class="font-semibold text-gray-800 text-base">${item.name}</h3>
+                            <p class="text-xs text-gray-600 mt-1">${item.description}</p>
                         </div>
-                        <span class="text-yellow-600 font-bold ml-2 text-sm">${formatPrice(item.price)}</span>
+                        <span class="text-[#FF7F32] font-bold ml-2 text-sm">${formatPrice(item.price)}</span>
                     </div>
-                    <div class="flex items-center justify-between mt-2">
-                        <div class="flex items-center space-x-1">
-                            <button class="quantity-btn decrement bg-gray-200 text-gray-700 w-6 h-6 rounded-full font-bold transition hover:bg-gray-300 text-xs">-</button>
-                            <span class="quantity font-medium w-6 text-center text-sm">0</span>
-                            <button class="quantity-btn increment bg-gray-200 text-gray-700 w-6 h-6 rounded-full font-bold transition hover:bg-gray-300 text-xs">+</button>
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="flex items-center space-x-2">
+                            <button class="quantity-btn decrement w-7 h-7 rounded-full font-bold transition text-xs">-</button>
+                            <span class="quantity font-medium w-8 text-center text-gray-800 text-sm">0</span>
+                            <button class="quantity-btn increment w-7 h-7 rounded-full font-bold transition text-xs">+</button>
                         </div>
                     </div>
                 `;
@@ -236,52 +290,49 @@
                 const decrementBtn = itemDiv.querySelector('.decrement');
                 const incrementBtn = itemDiv.querySelector('.increment');
 
-                // Handle quantity changes
-                incrementBtn.addEventListener('click', () => {
+                // Atualiza a quantidade do item no pedido e na tela
+                const updateItemQuantity = (change) => {
                     let quantity = parseInt(quantitySpan.textContent);
-                    quantitySpan.textContent = quantity + 1;
-                    
-                    // Automatically add to order when quantity changes
-                    if (quantity + 1 > 0) {
-                        if (order[item.name]) {
-                            order[item.name].quantity += 1;
-                        } else {
-                            order[item.name] = { ...item, quantity: 1 };
-                        }
-                        updateOrderSummary();
-                    }
-                });
+                    const newQuantity = quantity + change;
 
-                decrementBtn.addEventListener('click', () => {
-                    let quantity = parseInt(quantitySpan.textContent);
-                    if (quantity > 0) {
-                        quantitySpan.textContent = quantity - 1;
-                        
-                        // Automatically update order when quantity changes
-                        if (order[item.name]) {
-                            order[item.name].quantity -= 1;
-                            if (order[item.name].quantity === 0) {
-                                delete order[item.name];
-                            }
-                            updateOrderSummary();
-                        }
+                    if (newQuantity < 0) return;
+                    
+                    quantitySpan.textContent = newQuantity;
+
+                    if (newQuantity > 0) {
+                        order[item.name] = { ...item, quantity: newQuantity };
+                    } else {
+                        delete order[item.name];
                     }
-                });
+                    updateOrderSummary();
+                };
+
+                incrementBtn.addEventListener('click', () => updateItemQuantity(1));
+                decrementBtn.addEventListener('click', () => updateItemQuantity(-1));
 
                 return itemDiv;
             }
 
-            // Function to render all items for a given category
+            // Renderiza todos os itens de uma categoria com filtro de busca
             function renderMenuSection(category) {
                 const section = document.getElementById(`${category}-section`);
                 section.innerHTML = '';
-                
-                menu[category].forEach((item) => {
-                    section.appendChild(renderMenuItem(item, category));
+                const searchTerm = searchInput.value.toLowerCase();
+
+                const filteredItems = menu[category].filter(item => {
+                    return item.name.toLowerCase().includes(searchTerm) || item.description.toLowerCase().includes(searchTerm);
                 });
+
+                if (filteredItems.length === 0) {
+                    section.innerHTML = `<p class="text-center text-gray-500 italic py-6 text-xs">Nenhum item encontrado.</p>`;
+                } else {
+                    filteredItems.forEach(item => {
+                        section.appendChild(renderMenuItem(item));
+                    });
+                }
             }
 
-            // Update order summary on screen
+            // Atualiza o resumo do pedido na tela
             function updateOrderSummary() {
                 summaryList.innerHTML = '';
                 let hasItems = false;
@@ -298,8 +349,8 @@
                         li.className = 'cart-item bg-white p-2 rounded-lg shadow-sm flex justify-between items-center';
                         li.innerHTML = `
                             <div class="flex-grow">
-                                <div class="font-medium text-xs">${item.quantity}x ${item.name}</div>
-                                <div class="text-yellow-600 font-medium mt-1 text-xs">${formatPrice(itemTotal)}</div>
+                                <div class="font-medium text-gray-800 text-xs">${item.quantity}x ${item.name}</div>
+                                <div class="text-[#FF7F32] font-medium mt-1 text-xs">${formatPrice(itemTotal)}</div>
                             </div>
                             <button class="remove-item-btn text-red-500 hover:text-red-700 transition ml-2 text-xs" data-item-name="${itemName}">
                                 <i class="fas fa-trash-alt"></i>
@@ -317,14 +368,14 @@
                 }
             }
 
-            // Event listener to remove item from summary
+            // Evento para remover item do resumo
             document.getElementById('order-summary').addEventListener('click', (event) => {
-                if (event.target.closest('.remove-item-btn')) {
-                    const itemName = event.target.closest('.remove-item-btn').getAttribute('data-item-name');
+                const removeItemBtn = event.target.closest('.remove-item-btn');
+                if (removeItemBtn) {
+                    const itemName = removeItemBtn.getAttribute('data-item-name');
                     delete order[itemName];
                     updateOrderSummary();
                     
-                    // Reset quantity in the menu
                     document.querySelectorAll('.menu-item-card').forEach(card => {
                         const itemTitle = card.querySelector('h3').textContent;
                         if (itemTitle === itemName) {
@@ -336,67 +387,32 @@
                 }
             });
 
-            // Handle category tab clicks
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.category-tab').forEach(t => {
-                        t.classList.remove('active', 'border-yellow-400', 'bg-yellow-400');
-                        t.classList.add('border-transparent');
-                    });
-                    document.querySelectorAll('.menu-section').forEach(section => section.classList.add('hidden'));
-
-                    const selectedCategory = tab.getAttribute('data-category');
-                    tab.classList.add('active');
-                    document.getElementById(`${selectedCategory}-section`).classList.remove('hidden');
+            // Eventos para as abas de categoria
+            categoryTabs.addEventListener('click', (event) => {
+                const tab = event.target.closest('.category-tab');
+                if (!tab) return;
+                
+                document.querySelectorAll('.category-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.classList.remove('text-white');
+                    t.classList.add('text-gray-800');
                 });
+                document.querySelectorAll('.menu-section').forEach(section => section.classList.add('hidden'));
+
+                const selectedCategory = tab.getAttribute('data-category');
+                tab.classList.add('active');
+                tab.classList.remove('text-gray-800');
+                tab.classList.add('text-white');
+                document.getElementById(`${selectedCategory}-section`).classList.remove('hidden');
+
+                renderMenuSection(selectedCategory);
             });
-
-            // Handle WhatsApp button click
-            whatsappButton.addEventListener('click', () => {
-                const tableNumber = tableNumberInput.value.trim();
-                if (!tableNumber) {
-                    showMessage('Por favor, informe o número da mesa.');
-                    return;
-                }
-
-                if (Object.keys(order).length === 0) {
-                    showMessage('Seu pedido está vazio. Adicione itens antes de enviar.');
-                    return;
-                }
-
-                let message = `*NOVO PEDIDO*\n\n`;
-                message += `*Mesa:* ${tableNumber}\n\n`;
-                message += `*ITENS DO PEDIDO:*\n`;
-                
-                let total = 0;
-                for (const itemName in order) {
-                    const item = order[itemName];
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    
-                    message += `\n${item.quantity}x ${item.name} - ${formatPrice(itemTotal)}`;
-                }
-                
-                message += `\n\n----------------------------\n`;
-                message += `*TOTAL: ${formatPrice(total)}*`;
-                message += `\n\n_Obrigado pela preferência!_`;
-
-                // URL encode the message and create the WhatsApp link with the number
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-            });
-
-            // Initial rendering and state setup
-            tableNumberInput.addEventListener('input', () => {
-                const tableNumber = tableNumberInput.value.trim();
-                tableNumberSummary.textContent = tableNumber ? `Mesa: ${tableNumber}` : '';
-            });
-
-            // Initial render of all categories
-            for (const category in menu) {
-                renderMenuSection(category);
-            }
             
-            // Show the first category by default
-            document.querySelector('.category-tab').classList.add('active');
-            document.getElementById('entradas-section').classList.remo
+            // Evento para o campo de busca
+            searchInput.addEventListener('input', () => {
+                const activeTab = document.querySelector('.category-tab.active');
+                const currentCategory = activeTab ? activeTab.getAttribute('data-category') : 'entradas';
+                renderMenuSection(currentCategory);
+            });
+
+            // Evento par
